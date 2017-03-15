@@ -157,11 +157,7 @@ module.exports = function(RED) {
                         sheet.getRows({
                           offset: offset
                         }, function( err, rows ){
-                          console.log('Read '+rows.length+' rows');
-
-                          for (i=0;i<rows.length;i++) {
-                              //console.log(rows[i]);
-                          }
+                          node.log(err);
                         });
                         
                     });
