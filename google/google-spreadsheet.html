@@ -1,0 +1,127 @@
+<!-- Google credentials configuration -->
+<script type="text/javascript">
+    RED.nodes.registerType('google-config',{
+        category: 'config',
+        defaults: {
+            name: {value:""},
+            googlecreds: {value:""},
+        },
+        label: function() {
+            return this.name;
+        },
+        oneditprepare: function () {
+            
+        },
+        oneditsave: function() {
+
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="google-config">
+    <div class="form-row">
+        <label style="width: 140px;" for="node-config-input-name"><i class="fa fa-tag"></i> LB Config Name</label>
+        <input style="width: 60%;" type="text" id="node-config-input-name" placeholder="LB Config Name">
+    </div>
+    <div class="form-row">
+        <label style="width: 140px;" for="node-config-input-googlecreds"><i class="fa fa-file-text-o"></i> Google config</label>
+        <input style="width: 60%;" type="text" id="node-config-input-googlecreds" placeholder="Google credentials config json path">
+    </div>
+
+</script>
+
+<!-- Google Spreadsheet output node -->
+<script type="text/x-red" data-help-name="google-spreadsheet-out">
+    <p>A simple Google Spreadsheet output node. It can import a two-dimensional array into an existing spreadaheet starting at cell A1.</p>
+    <p>the msg.payload needs to be structured like:</p>
+    <p>[["A","B","C"],["D","E","F"]]</p>
+    <p>The outer array defines the rows and the inner array the columns.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('google-spreadsheet-out',{
+        category: 'google',
+        color: '#7bcfa9',
+        defaults: {
+            googleconfig: {value:"", type:"google-config"},
+            name: {value:""},
+            spreadsheetKey: {value:"", required:true},
+            worksheetName: {value:"", required:true},
+        },
+        inputs:1,
+        outputs:0,
+        align: "right",
+        icon: "spreadsheets-48.png",
+        label: function() {
+            return this.name||"google-spreadsheet-out";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="google-spreadsheet-out">
+    
+    <div class="form-row">
+        <label style="width: 140px;" for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input style="width: 60%;" type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label style="width: 140px;" for="node-input-googleconfig"><i class="fa fa-google"></i> Google Config</label>
+        <input style="width: 60%;" type="text" id="node-input-googleconfig">
+    </div>
+    <div class="form-row">
+        <label style="width: 140px;" for="node-input-spreadsheetKey"><i class="fa fa-key"></i> Spreadsheet Key</label>
+        <input style="width: 60%;" type="text" id="node-input-spreadsheetKey" placeholder="Spreadsheet Key">
+    </div>
+    <div class="form-row">
+        <label style="width: 140px;" for="node-input-worksheetName"><i class="fa fa-table"></i> Worksheet Name</label>
+        <input style="width: 60%;" type="text" id="node-input-worksheetName" placeholder="worksheetName">
+    </div>
+
+</script>
+
+
+<!-- Google Spreadsheet input node -->
+<script type="text/x-red" data-help-name="google-spreadsheet-in">
+    <p>A simple Google Spreadsheet input node.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('google-spreadsheet-in',{
+        category: 'google',
+        color: '#7bcfa9',
+        defaults: {
+            googleconfig: {value:"", type:"google-config"},
+            name: {value:""},
+            spreadsheetKey: {value:"", required:true},
+            worksheetName: {value:"", required:true},
+        },
+        inputs:1,
+        outputs:1,
+        align: "left",
+        icon: "spreadsheets-48.png",
+        label: function() {
+            return this.name||"google-spreadsheet-in";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="google-spreadsheet-in">
+    
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-googleconfig"><i class="fa fa-google"></i> Google Config</label>
+        <input type="text" id="node-input-googleconfig">
+    </div>
+    <div class="form-row">
+        <label for="node-input-spreadsheetKey"><i class="fa fa-key"></i> Spreadsheet Key</label>
+        <input type="text" id="node-input-spreadsheetKey" placeholder="Spreadsheet Key">
+    </div>
+    <div class="form-row">
+        <label for="node-input-worksheetName"><i class="fa fa-table"></i> Worksheet Name</label>
+        <input type="text" id="node-input-worksheetName" placeholder="worksheetName">
+    </div>
+
+</script>

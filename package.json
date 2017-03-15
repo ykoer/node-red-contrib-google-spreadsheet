@@ -1,0 +1,19 @@
+{
+  "author": {
+    "name": "Yusuf Kör, yusuf.koer@googlemail.com"
+  },
+  "dependencies": {
+  },
+  "description": "A simple Google Spreadsheet input and output node.",
+  "name": "node-red-contrib-google-spreadsheet",
+  "keywords": [
+    "node-red",
+    "google-spreadsheet"
+  ],
+  "node-red": {
+    "nodes": {
+      "google-spreadsheet": "google/google-spreadsheet.js"
+    }
+  },
+  "version": "0.1.0"
+}
