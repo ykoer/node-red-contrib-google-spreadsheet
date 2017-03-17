@@ -105,6 +105,10 @@ module.exports = function(RED) {
         this.googlecreds = config.googlecreds;
         this.spreadsheetKey = config.spreadsheetKey;
         this.worksheetName = config.worksheetName;
+        this.minRow = config.minRow;
+        this.maxRow = config.maxRow;
+        this.minCol = config.minCol;
+        this.maxCol = config.maxCol;
 
         // Retrieve the config node
         this.googleconfig = RED.nodes.getNode(config.googleconfig);
@@ -126,7 +130,7 @@ module.exports = function(RED) {
 
 
         function findWorksheet(worksheets) {
-            for (i=0; i<worksheets.length; i++) {
+            for (var i=0; i<worksheets.length; i++) {
                 if (worksheets[i].title == node.worksheetName) {
                     return worksheets[i];
                 }
@@ -135,34 +139,61 @@ module.exports = function(RED) {
 
         this.on('input', function(msg) {
 
-            var offset = msg.payload;
+            msg.payload = [];
 
-                doc.useServiceAccountAuth(this.creds, function() {
-                    doc.getInfo(function(err, info) {
+            doc.useServiceAccountAuth(this.creds, function() {
+                doc.getInfo(function(err, info) {
 
-                        if (typeof(info) == 'undefined' || typeof(info.worksheets) == 'undefined') {
-                            node.valid = false;
-                            node.error("Spreadsheet Key is unknown!");
-                            return;
-                        }
+                    if (typeof(info) == 'undefined' || typeof(info.worksheets) == 'undefined') {
+                        node.valid = false;
+                        node.error("Spreadsheet Key is unknown!");
+                        return;
+                    }
 
-                        sheet = findWorksheet(info.worksheets);  
+                    var sheet = findWorksheet(info.worksheets); 
 
-                        if (typeof(sheet) == 'undefined') {
-                            node.valid = false;
-                            node.error("Spreadsheet with the name " +  node.worksheetName + " is unknown!");
-                            return;
-                        }
+                    if (typeof(sheet) == 'undefined') {
+                        node.valid = false;
+                        node.error("Spreadsheet with the name " +  node.worksheetName + " is unknown!");
+                        return;
+                    }
 
-                        sheet.getRows({
-                          offset: offset
-                        }, function( err, rows ){
-                          node.log(err);
-                        });
+                    var queryAttr = {};
+                    queryAttr["return-empty"] = true;
+                    if (node.minRow.length>0) {
+                        queryAttr["min-row"] = node.minRow;
+                    }
+                    if (node.maxRow.length>0) {
+                        queryAttr["max-row"] = node.maxRow;
+                    }
+                    if (node.minCol.length>0) {
+                        queryAttr["min-col"] = node.minCol;
+                    }
+                    if (node.maxCol.length>0) {
+                        queryAttr["max-col"] = node.maxCol;
+                    }
+
+                    sheet.getCells(queryAttr, function(err, cells) {
+                        console.log(cells.length);
                         
+                        var rows = [];
+                        var cols = [];
+                        var prevRow = -1;
+                        cells.forEach(function(cell) {
+                            if (prevRow!==-1&&cell.row!==prevRow) {
+                                rows.push(cols);
+                                cols = [];                                   
+                            }
+                            cols.push(cell.value);
+                            prevRow = cell.row;
+                        });
+                        rows.push(cols);
+                        msg.payload = rows;
+                        node.send(msg);
                     });
+                    
                 });
-
+            });
              
         });
             

@@ -94,6 +94,10 @@
             name: {value:""},
             spreadsheetKey: {value:"", required:true},
             worksheetName: {value:"", required:true},
+            minRow: {value:"", required:false},
+            maxRow: {value:"", required:false},
+            minCol: {value:"", required:false},
+            maxCol: {value:"", required:false},
         },
         inputs:1,
         outputs:1,
@@ -122,6 +126,22 @@
     <div class="form-row">
         <label for="node-input-worksheetName"><i class="fa fa-table"></i> Worksheet Name</label>
         <input type="text" id="node-input-worksheetName" placeholder="worksheetName">
+    </div>
+    <div class="form-row">
+        <label for="node-input-minRow"><i class="fa fa-table"></i> min row</label>
+        <input type="text" id="node-input-minRow" placeholder="min row">
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxRow"><i class="fa fa-table"></i> max row</label>
+        <input type="text" id="node-input-maxRow" placeholder="max row">
+    </div>
+    <div class="form-row">
+        <label for="node-input-minCol"><i class="fa fa-table"></i> min column</label>
+        <input type="text" id="node-input-minCol" placeholder="min column">
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxCol"><i class="fa fa-table"></i> max column</label>
+        <input type="text" id="node-input-maxCol" placeholder="max column">
     </div>
 
 </script>
