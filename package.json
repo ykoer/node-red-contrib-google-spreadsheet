@@ -3,6 +3,7 @@
     "name": "Yusuf Kör, yusuf.koer@googlemail.com"
   },
   "dependencies": {
+    "google-spreadsheet": "^2.0.4"
   },
   "description": "A simple Google Spreadsheet input and output node.",
   "name": "node-red-contrib-google-spreadsheet",
